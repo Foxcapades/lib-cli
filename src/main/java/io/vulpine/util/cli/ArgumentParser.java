@@ -130,6 +130,8 @@ public class ArgumentParser
           addValue(openKey, a);
           openKey = null;
         }
+
+        params.add(a);
       }
     }
   }
