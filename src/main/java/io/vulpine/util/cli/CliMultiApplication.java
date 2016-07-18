@@ -59,7 +59,8 @@ public class CliMultiApplication implements CliApplicationDef
 
     mode = modes.get(parser.getCliMode());
 
-    if (mode == null) throw new RuntimeException("Unrecognized application mode.");
+    if (mode == null)
+      exit("Unrecognized application mode.");
 
     nvIt = parser.getArgumentsByName().entrySet().iterator();
     while ( nvIt.hasNext() ) {
@@ -88,11 +89,11 @@ public class CliMultiApplication implements CliApplicationDef
 
     for ( final CliArgumentDef a : arguments.getArguments() )
       if (a.isRequired() && !a.wasUsed())
-        throw new RuntimeException(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
+        exit(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
 
     for ( final CliArgumentDef a : mode.getArgumentSet().getArguments() )
       if (a.isRequired() && !a.wasUsed())
-        throw new RuntimeException(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
+        exit(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
 
     mode.run(parser);
   }
@@ -123,14 +124,14 @@ public class CliMultiApplication implements CliApplicationDef
 
   private void testFlag ( final CliArgumentDef a, final Object e )
   {
-    assert null != a : "Unrecognized flag " + e;
-    assert !a.getParameter().isRequired() : String.format("Argument --%s requires a value.", e);
+    if (null == a) exit("Unrecognized flag " + e);
+    if (a.getParameter().isRequired()) exit(String.format("Argument --%s requires a value.", e));
     a.use();
   }
 
   private void nullCheckArg ( final CliArgumentDef a, final Object i, final List < String > v )
   {
-    assert null != a : "Unrecognized Argument " + i;
+    if (null == a) exit("Unrecognized Argument " + i);
     insertValues(a, v);
   }
 
@@ -138,5 +139,11 @@ public class CliMultiApplication implements CliApplicationDef
   {
     for ( final String s : values ) a.parseParam(s);
     a.use();
+  }
+
+  private void exit( final String message )
+  {
+    System.out.println(message);
+    System.exit(1);
   }
 }
