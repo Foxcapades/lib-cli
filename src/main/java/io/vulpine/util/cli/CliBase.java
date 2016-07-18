@@ -15,11 +15,11 @@ public class CliBase implements NamableDef, DescribableDef
 
   public String getDescription ()
   {
-    return null;
+    return description;
   }
 
   public String getName ()
   {
-    return null;
+    return name;
   }
 }
