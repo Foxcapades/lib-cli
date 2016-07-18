@@ -59,7 +59,7 @@ public class CliMultiApplication implements CliApplicationDef
 
     mode = modes.get(parser.getCliMode());
 
-    assert null != mode : "Unrecognized application mode.";
+    if (mode == null) throw new RuntimeException("Unrecognized application mode.");
 
     nvIt = parser.getArgumentsByName().entrySet().iterator();
     while ( nvIt.hasNext() ) {
@@ -85,6 +85,14 @@ public class CliMultiApplication implements CliApplicationDef
 
     while (!params.isEmpty())
       mode.addParameter(params.poll());
+
+    for ( final CliArgumentDef a : arguments.getArguments() )
+      if (a.isRequired() && !a.wasUsed())
+        throw new RuntimeException(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
+
+    for ( final CliArgumentDef a : mode.getArgumentSet().getArguments() )
+      if (a.isRequired() && !a.wasUsed())
+        throw new RuntimeException(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
 
     mode.run(parser);
   }

@@ -40,4 +40,6 @@ public interface CliArgumentDef < T > extends NamableDef, DescribableDef
   boolean wasUsed();
 
   List < T > getValues ();
+
+  boolean isRequired();
 }

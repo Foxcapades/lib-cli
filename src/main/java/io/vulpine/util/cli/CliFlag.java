@@ -2,9 +2,9 @@ package io.vulpine.util.cli;
 
 public class CliFlag extends CliArgument < Void >
 {
-  public CliFlag ( char shortKey, String longName, String description )
+  public CliFlag ( final char shortKey, final String longName, final String description, final boolean required )
   {
-    super(shortKey, longName, description, null);
+    super(shortKey, longName, description, required, null);
   }
 
   @Override

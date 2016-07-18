@@ -8,6 +8,7 @@ import java.util.List;
 
 public abstract class CliArgument < T > extends CliBase implements CliArgumentDef < T >
 {
+  protected final boolean required;
   protected final CliParameterDef < T > parameter;
   protected final char key;
   protected final List < T > values;
@@ -18,10 +19,12 @@ public abstract class CliArgument < T > extends CliBase implements CliArgumentDe
     final char key,
     final String name,
     final String description,
+    final boolean required,
     final CliParameterDef < T > param
   )
   {
     super(name, description);
+    this.required = required;
 
     this.parameter = param;
     this.key = key;
@@ -63,5 +66,11 @@ public abstract class CliArgument < T > extends CliBase implements CliArgumentDe
   public List < T > getValues ()
   {
     return values;
+  }
+
+  @Override
+  public boolean isRequired()
+  {
+    return required;
   }
 }
