@@ -135,7 +135,7 @@ public class CliMultiApplication implements CliApplicationDef
       System.exit(1);
     }
 
-    if (a.getParameter().isRequired()) {
+    if (a.getParameter() != null  && a.getParameter().isRequired()) {
       System.out.println(String.format("Argument --%s requires a value.", e));
       System.exit(1);
     }
