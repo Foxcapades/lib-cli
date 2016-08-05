@@ -10,11 +10,13 @@ import java.util.Queue;
 
 public abstract class CliMode extends CliBase implements CliModeDef
 {
-  protected final Queue < String > parameters;
-  protected final ArgumentSet arguments;
+  protected final Queue < String >       parameters;
+
+  protected final ArgumentSet            arguments;
+
   protected final Map < String, String > values;
 
-  public CliMode ( final String n, final String d )
+  public CliMode( final String n, final String d )
   {
     super(n, d);
 
@@ -24,7 +26,7 @@ public abstract class CliMode extends CliBase implements CliModeDef
   }
 
   @Override
-  public CliMode addParameter ( final String p )
+  public CliMode addParameter( final String p )
   {
     parameters.offer(p);
 
@@ -32,7 +34,7 @@ public abstract class CliMode extends CliBase implements CliModeDef
   }
 
   @Override
-  public CliMode addArgument ( final CliArgumentDef a )
+  public CliMode addArgument( final CliArgumentDef a )
   {
     arguments.addArgument(a);
 
@@ -40,13 +42,13 @@ public abstract class CliMode extends CliBase implements CliModeDef
   }
 
   @Override
-  public boolean hasUnfilledParam ()
+  public boolean hasUnfilledParam()
   {
     return null != parameters.peek();
   }
 
   @Override
-  public CliMode parseParam ( final String s )
+  public CliMode parseParam( final String s )
   {
     final String next = parameters.poll();
     values.put(next, s);
@@ -54,8 +56,26 @@ public abstract class CliMode extends CliBase implements CliModeDef
   }
 
   @Override
-  public ArgumentSet getArgumentSet ()
+  public ArgumentSet getArgumentSet()
   {
     return arguments;
+  }
+
+  @Override
+  public String getHelpText()
+  {
+    final String ls    = System.getProperty("line.separator");
+    final String indls = ls + "    ";
+
+    final StringBuilder sb = new StringBuilder(this.name);
+
+    for ( final String param : parameters ) {
+      sb.append(" [").append(param).append(']');
+    }
+
+    return sb
+      .append(indls)
+      .append(arguments.getHelpText().replaceAll(ls, indls))
+      .toString();
   }
 }

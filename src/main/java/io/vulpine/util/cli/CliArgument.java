@@ -73,4 +73,23 @@ public abstract class CliArgument < T > extends CliBase implements CliArgumentDe
   {
     return required;
   }
+
+  @Override
+  public String getHelpText()
+  {
+    final StringBuilder sb = new StringBuilder();
+
+    if (null == parameter) {
+      sb.append(String.format("-%s | --%s\n    %s", key, name, description));
+    } else {
+      final String pn = parameter.getName();
+      if (parameter.isRequired()) {
+        sb.append(String.format("-%s <%s> | --%s=<%s>\n    %s", key, pn, name, pn, description));
+      } else {
+        sb.append(String.format("-%s [%s] | --%s[=%s]\n    %s", key, pn, name, pn, description));
+      }
+    }
+
+    return sb.toString();
+  }
 }
