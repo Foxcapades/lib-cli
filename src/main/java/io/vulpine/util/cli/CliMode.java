@@ -2,9 +2,11 @@ package io.vulpine.util.cli;
 
 import io.vulpine.util.cli.def.CliArgumentDef;
 import io.vulpine.util.cli.def.CliModeDef;
-import io.vulpine.util.cli.def.CliParameterDef;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 public abstract class CliMode extends CliBase implements CliModeDef
 {
@@ -24,7 +26,7 @@ public abstract class CliMode extends CliBase implements CliModeDef
   @Override
   public CliMode addParameter ( final String p )
   {
-    parameters.add(p);
+    parameters.offer(p);
 
     return this;
   }

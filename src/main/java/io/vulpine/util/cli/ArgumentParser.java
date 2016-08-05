@@ -77,24 +77,27 @@ public class ArgumentParser
       final String a = args[i];
 
       final boolean isFlag = a.charAt(0) == '-';
-      final boolean isLong = a.charAt(1) == '-';
+      final boolean isLong = isFlag && a.charAt(1) == '-';
+
+      if (isLong) {
+
+        final int b = a.indexOf('=');
+
+        openName = null;
+
+        if (b > -1) {
+          addValue(a.substring(2, b), a.substring(b + 1), byName);
+        } else {
+          openName = a.substring(2);
+          nameFlags.add(openName);
+        }
+
+        continue;
+      }
 
       if (isFlag) {
 
-        if (isLong) {
-
-          final int b = a.indexOf('=');
-
-          openName = null;
-
-          if (b > -1) {
-            addValue(a.substring(2, b), a.substring(b + 1));
-          } else {
-            openName = a.substring(2);
-            nameFlags.add(openName);
-          }
-
-        } else if (a.length() > 2) {
+        if (a.length() > 2) {
 
           final char[] b = a.toCharArray();
 
@@ -110,30 +113,33 @@ public class ArgumentParser
             keyFlags.add(tk);
           }
 
-        } else {
-
-          openKey = a.charAt(1);
-          keyFlags.add(openKey);
-
+          continue;
         }
 
-      } else {
+        openKey = a.charAt(1);
+        keyFlags.add(openKey);
 
-        if (null != openName) {
-          nameFlags.remove(openName);
-          addValue(openName, a);
-          openName = null;
-        }
-
-        if (null != openKey) {
-          keyFlags.remove(openKey);
-          addValue(openKey, a);
-          openKey = null;
-        }
-
-        params.add(a);
+        continue;
       }
+
+      if (null != openName) {
+        nameFlags.remove(openName);
+        addValue(openName, a, byName);
+        openName = null;
+        continue;
+      }
+
+      if (null != openKey) {
+        keyFlags.remove(openKey);
+        addValue(openKey, a, byKey);
+        openKey = null;
+        continue;
+      }
+
+      params.offer(a);
+
     }
+
   }
 
   public Map < String, List < String > > getArgumentsByName()
@@ -161,24 +167,13 @@ public class ArgumentParser
     return params;
   }
 
-  private void addValue ( final String k, final String v )
+  private < U > void addValue ( final U o, final String v, final Map < U, List < String > > m )
   {
-    if (byName.containsKey(k)) {
-      byName.get(k).add(v);
+    if (m.containsKey(o)) {
+      m.get(o).add(v);
     } else {
       final List < String > l = new ArrayList < String >();
-      byName.put(k, l);
-      l.add(v);
-    }
-  }
-
-  private void addValue ( final char k, final String v )
-  {
-    if (byKey.containsKey(k)) {
-      byKey.get(k).add(v);
-    } else {
-      final List < String > l = new ArrayList < String >();
-      byKey.put(k, l);
+      m.put(o, l);
       l.add(v);
     }
   }
