@@ -1,6 +1,5 @@
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliApplicationDef;
 import io.vulpine.util.cli.def.CliArgumentDef;
 import io.vulpine.util.cli.def.CliModeDef;
 import io.vulpine.util.cli.def.CliParameterDef;
@@ -8,7 +7,7 @@ import io.vulpine.util.cli.def.CliParameterDef;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class CliMultiApplication implements CliApplicationDef
+public class CliMultiApplication extends CliApplication
 {
   protected final ArgumentSet arguments;
   protected final Queue < CliParameterDef > parameters;
@@ -77,31 +76,40 @@ public class CliMultiApplication implements CliApplicationDef
     }
 
     nfIt = parser.getFlagsByName().iterator();
-    while ( nfIt.hasNext() )
+    while ( nfIt.hasNext() ) {
       testArg(nfIt.next(), mode);
+    }
 
     kfIt = parser.getFlagsByKey().iterator();
-    while ( kfIt.hasNext() )
+    while ( kfIt.hasNext() ) {
       testArg(kfIt.next(), mode);
+    }
 
     params = parser.getParameters();
 
-    while (!params.isEmpty())
+    while (!params.isEmpty()) {
       mode.addParameter(params.poll());
+    }
 
-    for ( final CliArgumentDef a : arguments.getArguments() )
+    for ( final CliArgumentDef a : arguments.getArguments() ) {
       if (a.isRequired() && !a.wasUsed()) {
         System.out.println(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
         System.exit(1);
       }
+    }
 
-    for ( final CliArgumentDef a : mode.getArgumentSet().getArguments() )
+    for ( final CliArgumentDef a : mode.getArgumentSet().getArguments() ) {
       if (a.isRequired() && !a.wasUsed()) {
         System.out.println(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
         System.exit(1);
       }
+    }
 
-    mode.run(parser);
+    if (helpFlag.wasUsed()) {
+      System.out.println(this.getHelpText());
+    } else {
+      mode.run(parser);
+    }
   }
 
   private void testArg (final String e, final CliModeDef mode )
@@ -156,5 +164,20 @@ public class CliMultiApplication implements CliApplicationDef
   {
     for ( final String s : values ) a.parseParam(s);
     a.use();
+  }
+
+  @Override
+  public String getHelpText()
+  {
+    final String ls = System.getProperty("line.separator");
+    final String indls = ls + "    ";
+
+    final StringBuilder stringBuilder = new StringBuilder("\n");
+
+    for ( final Map.Entry < String, CliModeDef > entry : this.modes.entrySet() ) {
+      stringBuilder.append(indls).append(entry.getValue().getHelpText());
+    }
+
+    return stringBuilder.append(ls).toString();
   }
 }

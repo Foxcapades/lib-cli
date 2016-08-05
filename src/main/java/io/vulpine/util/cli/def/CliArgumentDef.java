@@ -2,7 +2,7 @@ package io.vulpine.util.cli.def;
 
 import java.util.List;
 
-public interface CliArgumentDef < T > extends NamableDef, DescribableDef
+public interface CliArgumentDef < T > extends NamableDef, DescribableDef, HasHelpText
 {
   /**
    * Validate Parameter

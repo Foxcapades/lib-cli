@@ -4,7 +4,7 @@ import io.vulpine.util.cli.ArgumentParser;
 import io.vulpine.util.cli.ArgumentSet;
 import io.vulpine.util.cli.CliMode;
 
-public interface CliModeDef extends DescribableDef, NamableDef
+public interface CliModeDef extends DescribableDef, NamableDef, HasHelpText
 {
   CliModeDef addArgument ( final CliArgumentDef a );
 
