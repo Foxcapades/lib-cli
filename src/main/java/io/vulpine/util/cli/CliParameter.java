@@ -18,4 +18,10 @@ public abstract class CliParameter < T > extends CliBase implements CliParameter
   {
     return required;
   }
+
+  @Override
+  public String getHelpText()
+  {
+    return "";
+  }
 }
