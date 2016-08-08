@@ -29,6 +29,6 @@ public abstract class CliParameter < T > extends Common implements CliParameterI
   @Override
   public T getValue ()
   {
-    return null;
+    return value;
   }
 }
