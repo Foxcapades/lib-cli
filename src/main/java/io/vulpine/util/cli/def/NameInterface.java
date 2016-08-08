@@ -1,6 +1,6 @@
 package io.vulpine.util.cli.def;
 
-public interface NamableDef
+public interface NameInterface
 {
   String getName();
 }

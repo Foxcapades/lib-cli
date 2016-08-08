@@ -1,48 +1,46 @@
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.ArgumentSetDef;
-import io.vulpine.util.cli.def.CliArgumentDef;
+import io.vulpine.util.cli.def.CliArgumentInterface;
+import io.vulpine.util.cli.def.ArgumentSetInterface;
+import io.vulpine.util.cli.def.HelpInterface;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class ArgumentSet implements ArgumentSetDef
+public class ArgumentSet implements ArgumentSetInterface
 {
-  protected final Map < String, CliArgumentDef > byName;
+  protected final Map < String, CliArgumentInterface > byName;
 
-  protected final Map < Character, CliArgumentDef > byKey;
+  protected final Map < Character, CliArgumentInterface > byKey;
 
-  protected final Set < CliArgumentDef > arguments;
+  protected final Set < CliArgumentInterface > arguments;
 
   public ArgumentSet()
   {
-    byKey = new HashMap < Character, CliArgumentDef >();
-    byName = new HashMap < String, CliArgumentDef >();
-    arguments = new HashSet < CliArgumentDef >();
+    byKey = new HashMap < Character, CliArgumentInterface >();
+    byName = new HashMap < String, CliArgumentInterface >();
+    arguments = new HashSet < CliArgumentInterface >();
   }
 
   @Override
-  public CliArgumentDef getArgument( final String name )
+  public CliArgumentInterface getArgument( final String name )
   {
     return byName.get(name);
   }
 
   @Override
-  public CliArgumentDef getArgument( final char key )
+  public CliArgumentInterface getArgument( final char key )
   {
     return byKey.get(key);
   }
 
   @Override
-  public Set < CliArgumentDef > getArguments()
+  public Set < CliArgumentInterface > getArguments()
   {
     return this.arguments;
   }
 
   @Override
-  public void addArgument( final CliArgumentDef arg )
+  public void addArgument( final CliArgumentInterface arg )
   {
     this.byKey.put(arg.getKey(), arg);
     this.byName.put(arg.getName(), arg);
@@ -62,20 +60,17 @@ public class ArgumentSet implements ArgumentSetDef
   }
 
   @Override
-  public String getHelpText()
+  public String[] getHelpText()
   {
-    final String ls   = System.getProperty("line.separator");
-    final String ind  = "    ";
-    final String indls = ls + ind;
-    final String rarg = "< %s >";
-    final String oarg = "[ %s ]";
+    final String[] out = new String[arguments.size() * 2 + 1];
+    int i = 0;
 
-    final StringBuilder sb = new StringBuilder("Arguments:").append(ls);
+    out[i++] = "Arguments:";
 
-    for ( final CliArgumentDef arg : this.arguments ) {
-      sb.append(indls).append(arg.getHelpText().replaceAll(ls, indls));
+    for ( final CliArgumentInterface arg : this.arguments ) {
+      for ( final String h : arg.getHelpText() ) { out[i++] = HelpInterface.INDENT + h; }
     }
 
-    return sb.toString();
+    return out;
   }
 }

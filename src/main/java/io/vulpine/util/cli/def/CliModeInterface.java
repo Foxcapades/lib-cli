@@ -4,11 +4,11 @@ import io.vulpine.util.cli.ArgumentParser;
 import io.vulpine.util.cli.ArgumentSet;
 import io.vulpine.util.cli.CliMode;
 
-public interface CliModeDef extends DescribableDef, NamableDef, HasHelpText
+public interface CliModeInterface extends DescriptionInterface, NameInterface, HelpInterface
 {
-  CliModeDef addArgument ( final CliArgumentDef a );
+  CliModeInterface addArgument ( final CliArgumentInterface a );
 
-  CliModeDef addParameter ( final String parameter );
+  CliModeInterface addParameter ( final CliParameterInterface... parameter );
 
   void run( final ArgumentParser parser );
 

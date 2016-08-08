@@ -34,7 +34,7 @@ public class ArgumentParser
    */
   protected final String mode;
 
-  public ArgumentParser ( final String[] args, final boolean moded )
+  public ArgumentParser ( final String[] args, final boolean hasMode )
   {
     byName    = new HashMap < String, List < String > >();
     byKey     = new HashMap < Character, List < String > >();
@@ -44,7 +44,7 @@ public class ArgumentParser
 
     parseRemainder(args);
 
-    mode = moded ? params.poll() : null;
+    mode = hasMode ? params.poll() : null;
   }
 
   public String getCliMode()

@@ -2,13 +2,9 @@ package io.vulpine.util.cli;
 
 public class CliFlag extends CliArgument < Void >
 {
-  public CliFlag ( final char shortKey, final String longName, final String description, final boolean required )
-  {
-    super(shortKey, longName, description, required, null);
-  }
+  public CliFlag ( char key, String name, String desc ) { super(key, name, desc, null); }
 
-  @Override
-  public void parseParam ( String p ) throws IllegalArgumentException
-  {
-  }
+  public CliFlag ( char kay, String desc )              { super(kay, desc, null); }
+
+  public CliFlag ( String name, String desc )           { super(name, desc, null); }
 }

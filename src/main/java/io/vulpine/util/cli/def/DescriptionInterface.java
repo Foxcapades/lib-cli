@@ -1,6 +1,6 @@
 package io.vulpine.util.cli.def;
 
-public interface DescribableDef
+public interface DescriptionInterface
 {
   String getDescription();
 }

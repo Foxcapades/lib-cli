@@ -1,9 +1,11 @@
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliParameterDef;
+import io.vulpine.util.cli.def.CliParameterInterface;
 
-public abstract class CliParameter < T > extends CliBase implements CliParameterDef < T >
+public abstract class CliParameter < T > extends Common implements CliParameterInterface< T >
 {
+  protected T value;
+
   protected final boolean required;
 
   public CliParameter ( final String n, final String d, final boolean r )
@@ -12,7 +14,6 @@ public abstract class CliParameter < T > extends CliBase implements CliParameter
     this.required = r;
   }
 
-
   @Override
   public boolean isRequired ()
   {
@@ -20,8 +21,14 @@ public abstract class CliParameter < T > extends CliBase implements CliParameter
   }
 
   @Override
-  public String getHelpText()
+  public String[] getHelpText()
   {
-    return "";
+    return new String[0];
+  }
+
+  @Override
+  public T getValue ()
+  {
+    return null;
   }
 }
