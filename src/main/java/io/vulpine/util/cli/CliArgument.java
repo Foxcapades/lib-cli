@@ -142,7 +142,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
       } else if ( null == name ) {
         out[0] = String.format(required ? "-%s <%s>" : "-%s [%s]" , key, p);
       } else {
-        out[0] = String.format(required ? "-%s <%s> | --%s=<%s>" : "-%s [%s] | --%s[=%s]" , name, p);
+        out[0] = String.format(required ? "-%s <%s> | --%s=<%s>" : "-%s [%s] | --%s[=%s]" , key, p, name, p);
       }
     }
     out[1] = HelpInterface.INDENT + description;
