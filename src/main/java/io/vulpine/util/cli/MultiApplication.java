@@ -46,8 +46,8 @@ public class MultiApplication extends CliApplication
 
     mode = modes.get(parser.getCliMode());
 
-    if ( mode == null && parser.hasFlag("help")) {
-      if (helpFlag.wasUsed()) {
+    if ( mode == null ) {
+      if (parser.hasFlag("help")) {
         for ( final String l : getHelpText() ) {
           System.out.println(l);
         }

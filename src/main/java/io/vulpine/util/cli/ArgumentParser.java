@@ -88,8 +88,7 @@ public class ArgumentParser
         if (b > -1) {
           addValue(a.substring(2, b), a.substring(b + 1), byName);
         } else {
-          openName = a.substring(2);
-          nameFlags.add(openName);
+          nameFlags.add(a.substring(2));
         }
 
         continue;
