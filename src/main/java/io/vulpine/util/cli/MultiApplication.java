@@ -9,28 +9,13 @@ import java.util.Map.Entry;
 
 public class MultiApplication extends CliApplication
 {
-  protected final ArgumentSet arguments;
-
-  protected final Queue < CliParameterInterface > parameters;
-
-  protected final ArgumentParser parser;
 
   protected final Map < String, CliModeInterface > modes;
 
   public MultiApplication ( final String[] args )
   {
-    arguments = new ArgumentSet();
-    parser = new ArgumentParser(args, true);
-    parameters = new LinkedList < CliParameterInterface >();
+    super(args);
     modes = new HashMap < String, CliModeInterface >();
-  }
-
-  @Override
-  public MultiApplication addArgument ( final CliArgumentInterface... a )
-  {
-    for ( final CliArgumentInterface arg : a ) { arguments.addArgument(arg); }
-
-    return this;
   }
 
   public MultiApplication addAppMode ( final CliModeInterface... c )
