@@ -61,14 +61,16 @@ public abstract class CliMode extends Common implements CliModeInterface
   public String[] getHelpText ()
   {
     final String[]      arg = this.arguments.getHelpText();
-    final String[]      out = new String[arg.length + 1];
+    final String[]      out = new String[arg.length + 3];
     final StringBuilder sb  = new StringBuilder(this.name);
 
     for ( final CliParameterInterface p : parameters ) { sb.append(" [").append(p.getName()).append(']'); }
 
     out[0] = sb.toString();
+    out[1] = HelpInterface.INDENT + description;
+    out[2] = "";
 
-    for ( int i = 0; i < arg.length; i++ ) { out[i + 1] = HelpInterface.INDENT + arg[i]; }
+    for ( int i = 0; i < arg.length; i++ ) { out[i + 3] = HelpInterface.INDENT + arg[i]; }
 
     return out;
   }

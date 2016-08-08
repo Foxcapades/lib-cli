@@ -114,8 +114,6 @@ public class MultiApplication extends CliApplication
     final String[]         out;
 
     for ( final CliModeInterface entry : this.modes.values() ) {
-      lines.offer(entry.getName());
-      lines.offer(HelpInterface.INDENT + entry.getDescription());
       for ( final String help : entry.getHelpText() ) {
         lines.offer(HelpInterface.INDENT + help);
       }

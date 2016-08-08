@@ -1,5 +1,5 @@
 group 'io.vulpine.util'
-version '0.1.5'
+version '0.1.6'
 
 task wrapper(type: Wrapper) {
   gradleVersion = '2.9'
