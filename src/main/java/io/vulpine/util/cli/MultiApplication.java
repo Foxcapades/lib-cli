@@ -3,6 +3,7 @@ package io.vulpine.util.cli;
 import io.vulpine.util.cli.def.CliArgumentInterface;
 import io.vulpine.util.cli.def.CliModeInterface;
 import io.vulpine.util.cli.def.CliParameterInterface;
+import io.vulpine.util.cli.def.HelpInterface;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -46,6 +47,12 @@ public class MultiApplication extends CliApplication
     mode = modes.get(parser.getCliMode());
 
     if ( mode == null ) {
+      if (helpFlag.wasUsed()) {
+        for ( final String l : getHelpText() ) {
+          System.out.println(l);
+        }
+        return;
+      }
       System.out.println("Unrecognized application mode.");
       System.exit(1);
     }
@@ -107,7 +114,12 @@ public class MultiApplication extends CliApplication
     final String[]         out;
 
     for ( final CliModeInterface entry : this.modes.values() ) {
-      for ( final String help : entry.getHelpText() ) { lines.offer(help); }
+      lines.offer(entry.getName());
+      lines.offer(HelpInterface.INDENT + entry.getDescription());
+      for ( final String help : entry.getHelpText() ) {
+        lines.offer(HelpInterface.INDENT + help);
+      }
+      lines.offer("");
     }
 
     out = new String[lines.size()];
