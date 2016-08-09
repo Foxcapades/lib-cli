@@ -1,15 +1,15 @@
+plugins {
+  id "com.jfrog.bintray" version "1.7.1"
+}
+
 class Conf {
   static group   = 'io.vulpine.lib'
-  static version = '0.1.9'
+  static version = '0.1.10'
   static name    = 'cli'
   static jvm     = '1.6'
 }
 group Conf.group
 version Conf.version
-
-plugins {
-  id "com.jfrog.bintray" version "1.7"
-}
 
 apply plugin: 'java'
 sourceCompatibility = Conf.jvm
@@ -22,26 +22,15 @@ bintray {
     into '.'
   }
   pkg {
-    repo = 'maven'
+    repo = 'vpx-maven'
     name = Conf.name
+    userOrg = 'vpx'
     licenses = ['Apache-2.0']
     vcsUrl = 'https://bitbucket.org/Vulpine/cli'
-    version = {
+    version {
       name = Conf.version
       released = new Date()
       vcsTag = Conf.version
-    }
-  }
-}
-
-publishing {
-  publications {
-    LibCli(MavenPublication) {
-      from components.java
-      artifact
-      groupId Conf.group
-      artifactId Conf.name
-      version Conf.version
     }
   }
 }
