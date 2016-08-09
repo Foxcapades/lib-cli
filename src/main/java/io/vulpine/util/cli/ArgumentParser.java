@@ -76,6 +76,9 @@ public class ArgumentParser
 
       final String a = args[i];
 
+      if (a.isEmpty())
+        continue;
+
       final boolean isFlag = a.charAt(0) == '-';
       final boolean isLong = isFlag && a.charAt(1) == '-';
 
