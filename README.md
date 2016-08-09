@@ -1,5 +1,10 @@
 # cli
+
+[ ![Download](https://api.bintray.com/packages/vpx/vpx-maven/cli/images/download.svg) ](https://bintray.com/vpx/vpx-maven/cli/_latestVersion)
+
 Simple CLI framework structure.
+
+
 
 Supports Java 1.6+
 
