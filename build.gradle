@@ -1,14 +1,50 @@
-group 'io.vulpine.util'
-version '0.1.8'
+class Conf {
+  static group   = 'io.vulpine.lib'
+  static version = '0.1.9'
+  static name    = 'cli'
+  static jvm     = '1.6'
+}
+group Conf.group
+version Conf.version
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.9'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+plugins {
+  id "com.jfrog.bintray" version "1.7"
 }
 
 apply plugin: 'java'
+sourceCompatibility = Conf.jvm
 
-sourceCompatibility = 1.6
+bintray {
+  user = System.getenv('BINTRAY_USER')
+  key = System.getenv('BINTRAY_KEY')
+  filesSpec {
+    from 'build/libs'
+    into '.'
+  }
+  pkg {
+    repo = 'maven'
+    name = Conf.name
+    licenses = ['Apache-2.0']
+    vcsUrl = 'https://bitbucket.org/Vulpine/cli'
+    version = {
+      name = Conf.version
+      released = new Date()
+      vcsTag = Conf.version
+    }
+  }
+}
+
+publishing {
+  publications {
+    LibCli(MavenPublication) {
+      from components.java
+      artifact
+      groupId Conf.group
+      artifactId Conf.name
+      version Conf.version
+    }
+  }
+}
 
 repositories {
     mavenCentral()
