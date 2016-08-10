@@ -24,13 +24,9 @@ sourceCompatibility = Conf.jvm
 bintray {
   user = System.getenv('BINTRAY_USER')
   key = System.getenv('BINTRAY_KEY')
-  filesSpec {
-    from './pom.xml'
-    from 'build/libs'
-    into "./${Conf.version}"
-  }
+  publications = ['maven']
   pkg {
-    repo = 'vpx-maven'
+    repo = 'maven'
     name = Conf.name
     userOrg = 'vpx'
     licenses = ['Apache-2.0']
@@ -51,57 +47,55 @@ repositories {
 dependencies {
 }
 
-task sourceJar(type: Jar) {
-  from sourceSets.main.allJava
-  classifier 'src'
-  version Conf.version
-  baseName Conf.name
-  extension 'jar'
-}
-
 publishing {
+  repositories {
+    maven {
+      url "https://api.bintray.com/maven/vpx/maven/${Conf.name}/;publish=1"
+    }
+  }
   publications {
     maven(MavenPublication) {
       from components.java
-      artifact sourceJar
-      pom {
-        project {
-          inceptionYear 2016
-          organization {
-            name 'Vulpine IO'
-            url 'http://vulpine.io'
-          }
+      pom.withXml {
+        { -> project {
+            inceptionYear 2016
 
-          developers {
-            developer {
-              id 'elliefops'
-              name 'Elizabeth Harper'
-              email 'elliefops@gmail.com'
+            organization {
+              name 'Vulpine IO'
+              url 'http://vulpine.io'
             }
-          }
 
-          issueManagement {
-            system 'YouTrack'
-            url 'http://vulpine.myjetbrains.com/youtrack/issues?q=project%3A+lib-cli'
-          }
+            developers {
+              developer {
+                id 'elliefops'
+                name 'Elizabeth Harper'
+                email 'elliefops@gmail.com'
+              }
+            }
 
-          ciManagement {
-            system 'Jenkins'
-            url 'http://ec2-54-87-131-122.compute-1.amazonaws.com/job/lib-cli/'
-          }
+            issueManagement {
+              system 'YouTrack'
+              url 'http://vulpine.myjetbrains.com/youtrack/issues?q=project%3A+lib-cli'
+            }
 
-          scm {
-            'connection' 'scm:git:https://bitbucket.org/Vulpine/cli.git'
-            'developerConnection' 'scm:git:https://bitbucket.org/Vulpine/cli.git'
-            'tag' 'master'
-            url 'https://bitbucket.org/Vulpine/cli'
-          }
+            ciManagement {
+              system 'Jenkins'
+              url 'http://ec2-54-87-131-122.compute-1.amazonaws.com/job/lib-cli/'
+            }
 
-          licenses {
-            license {
-              name 'Apache License, Version 2.0'
-              url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-              distribution 'repo'
+            scm {
+              'connection' 'scm:git:https://bitbucket.org/Vulpine/cli.git'
+              'developerConnection' 'scm:git:https://bitbucket.org/Vulpine/cli.git'
+              'tag' 'master'
+              url 'https://bitbucket.org/Vulpine/cli'
+            }
+
+            licenses {
+              license {
+                name 'Apache License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+              }
             }
           }
         }
