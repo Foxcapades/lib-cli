@@ -1,7 +1,8 @@
 cli
 ===
 
-[ ![Download](https://api.bintray.com/packages/vpx/maven/cli/images/download.svg) ](https://bintray.com/vpx/maven/cli/_latestVersion)
+[![Download](https://api.bintray.com/packages/vpx/maven/cli/images/download.svg)](https://bintray.com/vpx/maven/cli/_latestVersion)
+[![Build Status](https://travis-ci.org/Vulpine-IO/lib-cli.svg?branch=development)](https://travis-ci.org/Vulpine-IO/lib-cli)
 
 Simple CLI framework structure.
 

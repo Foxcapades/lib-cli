@@ -1,6 +1,3 @@
 .idea/
 .gradle/
-gradle/
-gradlew*
 build/
-annotations.xml
