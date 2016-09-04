@@ -3,6 +3,6 @@ language: java
 jdk:
 - oraclejdk8
 
-before_install: chmod +x build.sh
+before_install: chmod +x build.sh && chmod +x gradlew
 
 script: ./build.sh
