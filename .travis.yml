@@ -4,11 +4,11 @@ jdk:
 - oraclejdk8
 
 before_install:
-- chmod +x build.sh
 - chmod +x gradlew
 - echo 'ext.OSSRH_USERNAME="lol"' >> config.gradle
 - echo 'ext.OSSRH_PASSWORD="no"' >> config.gradle
 
-# Skipped for now because assemble does everything that can be done...
+install: true
+
 script:
-- echo "Just no"
+- gradlew classes
