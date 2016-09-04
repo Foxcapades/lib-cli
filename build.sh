@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-gradle clean && gradle build && gradle bintrayUpload
+echo "OSSRH_USERNAME=lol\nOSSRH_PASSWORD=no" > gradle.properties
+gradle clean && gradle build
