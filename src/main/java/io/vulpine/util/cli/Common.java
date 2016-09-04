@@ -15,10 +15,10 @@
  */
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.DescriptionInterface;
-import io.vulpine.util.cli.def.NameInterface;
+import io.vulpine.util.cli.def.HasDescription;
+import io.vulpine.util.cli.def.HasName;
 
-class Common implements NameInterface, DescriptionInterface
+class Common implements HasName, HasDescription
 {
   protected final String name, description;
 

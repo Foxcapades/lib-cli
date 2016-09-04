@@ -17,18 +17,24 @@ package io.vulpine.util.cli;
 
 import io.vulpine.util.cli.def.CliArgumentInterface;
 import io.vulpine.util.cli.def.CliParameterInterface;
-import io.vulpine.util.cli.def.HelpInterface;
+import io.vulpine.util.cli.def.HasHelpText;
 import io.vulpine.util.cli.def.CliModeInterface;
 
 import java.util.*;
 
 public abstract class CliMode extends Common implements CliModeInterface
 {
+  /**
+   * Parameters attached to this CLI Mode
+   */
   protected final Queue < CliParameterInterface > parameters;
 
+  /**
+   * Arguments attached to this CLI Mode
+   */
   protected final ArgumentSet arguments;
 
-  public CliMode ( final String n, final String d )
+  public CliMode( final String n, final String d )
   {
     super(n, d);
 
@@ -37,55 +43,61 @@ public abstract class CliMode extends Common implements CliModeInterface
   }
 
   @Override
-  public CliMode addParameter ( final CliParameterInterface... p )
+  public CliMode addParameter( final CliParameterInterface... p )
   {
-    for ( final CliParameterInterface q : p ) { parameters.offer(q); }
+    for ( final CliParameterInterface q : p ) {
+      parameters.offer(q);
+    }
 
     return this;
   }
 
   @Override
-  public CliMode addArgument ( final CliArgumentInterface a )
+  public CliMode addArgument( final CliArgumentInterface argument )
   {
-    arguments.addArgument(a);
+    arguments.addArgument(argument);
 
     return this;
   }
 
   @Override
-  public boolean hasUnfilledParam ()
+  public boolean hasUnfilledParam()
   {
     return null != parameters.peek();
   }
 
   @Override
-  public CliMode parseParam ( final String s )
+  public CliMode parseParam( final String str )
   {
-    parameters.poll().parseValue(s);
+    parameters.poll().parseValue(str);
 
     return this;
   }
 
   @Override
-  public ArgumentSet getArgumentSet ()
+  public ArgumentSet getArgumentSet()
   {
     return arguments;
   }
 
   @Override
-  public String[] getHelpText ()
+  public String[] getHelpText()
   {
     final String[]      arg = this.arguments.getHelpText();
     final String[]      out = new String[arg.length + 3];
     final StringBuilder sb  = new StringBuilder(this.name);
 
-    for ( final CliParameterInterface p : parameters ) { sb.append(" [").append(p.getName()).append(']'); }
+    for ( final CliParameterInterface p : parameters ) {
+      sb.append(" [").append(p.getName()).append(']');
+    }
 
     out[0] = sb.toString();
-    out[1] = HelpInterface.INDENT + description;
+    out[1] = HasHelpText.INDENT + description;
     out[2] = "";
 
-    for ( int i = 0; i < arg.length; i++ ) { out[i + 3] = HelpInterface.INDENT + arg[i]; }
+    for ( int i = 0; i < arg.length; i++ ) {
+      out[i + 3] = HasHelpText.INDENT + arg[i];
+    }
 
     return out;
   }

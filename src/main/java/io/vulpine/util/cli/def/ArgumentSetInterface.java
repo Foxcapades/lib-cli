@@ -17,18 +17,74 @@ package io.vulpine.util.cli.def;
 
 import java.util.Set;
 
-public interface ArgumentSetInterface extends HelpInterface
+/**
+ * = Argument Set
+ *
+ * A collection of arguments belonging to a CLI component.
+ *
+ * Arguments in this collection (and application wide) should be unique by name
+ * or long form as well as by key or shorthand form.
+ *
+ * Implementations of this interface are not required to validate that child
+ * arguments are unique, so care should be taken when adding new arguments to
+ * prevent issues with overlapping or competing arguments.
+ *
+ * @author https://github.com/EllieFops[Elizabeth Harper]
+ * @version 1.0.0
+ * @since 0.1.0
+ */
+public interface ArgumentSetInterface extends HasHelpText
 {
-
+  /**
+   * Retrieves an argument from this ArgumentSet that has the given name.
+   *
+   * @param name Name of the argument to retrieve.
+   *
+   * @return The argument with the given name, or null if this ArgumentSet does
+   *         not contain an argument with that name.
+   */
   CliArgumentInterface getArgument( String name );
 
+  /**
+   * Retrieves an argument from this ArgumentSet that has the given key.
+   *
+   * @param key Name of the argument to retrieve.
+   *
+   * @return The argument with the given shortcut key, or null if this argument
+   * set does not contain an argument with that name.
+   */
   CliArgumentInterface getArgument( char key );
 
-  Set< CliArgumentInterface > getArguments();
+  /**
+   * Retrieves a read-only set of all arguments contained in this ArgumentSet.
+   *
+   * @return A read-only copy of the internal argument collection for this
+   *         ArgumentSet.
+   */
+  Set < CliArgumentInterface > getArguments();
 
+  /**
+   * Adds an argument to the current ArgumentSet.
+   *
+   * @param arg Argument to add.
+   */
   void addArgument( CliArgumentInterface arg );
 
+  /**
+   * Checks if this ArgumentSet contains an argument with the given name.
+   *
+   * @param name Name of the argument to check for.
+   *
+   * @return Whether or not the given argument is in this ArgumentSet.
+   */
   boolean hasArgument( String name );
 
+  /**
+   * Checks if this ArgumentSet contains an argument with the given key.
+   *
+   * @param key shortcut key of the argument to check for.
+   *
+   * @return Whether or not the given argument is in this ArgumentSet.
+   */
   boolean hasArgument( char key );
 }

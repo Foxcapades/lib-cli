@@ -15,7 +15,7 @@
  */
 package io.vulpine.util.cli.def;
 
-public interface NameInterface
+public interface HasDescription
 {
-  String getName();
+  String getDescription();
 }

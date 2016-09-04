@@ -17,7 +17,7 @@ package io.vulpine.util.cli;
 
 import io.vulpine.util.cli.def.CliArgumentInterface;
 import io.vulpine.util.cli.def.ArgumentSetInterface;
-import io.vulpine.util.cli.def.HelpInterface;
+import io.vulpine.util.cli.def.HasHelpText;
 
 import java.util.*;
 
@@ -83,7 +83,7 @@ public class ArgumentSet implements ArgumentSetInterface
     out[i++] = "Arguments:";
 
     for ( final CliArgumentInterface arg : this.arguments ) {
-      for ( final String h : arg.getHelpText() ) { out[i++] = HelpInterface.INDENT + h; }
+      for ( final String h : arg.getHelpText() ) { out[i++] = HasHelpText.INDENT + h; }
     }
 
     return out;

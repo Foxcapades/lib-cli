@@ -15,11 +15,31 @@
  */
 package io.vulpine.util.cli.def;
 
-public interface CliParameterInterface < T > extends DescriptionInterface, NameInterface, HelpInterface
+/**
+ * = CLI Parameter
+ *
+ * @param <T> Type of the expected input value from the command line.
+ *
+ * @author https://github.com/EllieFops[Elizabeth Harper]
+ */
+public interface CliParameterInterface < T > extends HasDescription, HasName, HasHelpText
 {
+  /**
+   * Gets the contained value having been parsed by this Parameter.
+   *
+   * @return Value parsed by this parameter of the parameter's defined type.
+   */
   T getValue();
 
   void parseValue( final String value );
 
+  /**
+   * Gets whether or not this Parameter is required.
+   *
+   * Parameters can be defined as required if their parent component must have
+   * user input at call time.
+   *
+   * @return if this Parameter is required by it's parent component.
+   */
   boolean isRequired();
 }

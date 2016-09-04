@@ -17,7 +17,7 @@ package io.vulpine.util.cli;
 
 import io.vulpine.util.cli.def.CliArgumentInterface;
 import io.vulpine.util.cli.def.CliParameterInterface;
-import io.vulpine.util.cli.def.HelpInterface;
+import io.vulpine.util.cli.def.HasHelpText;
 
 public class CliArgument < T > extends Common implements CliArgumentInterface < T >
 {
@@ -160,7 +160,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
         out[0] = String.format(required ? "-%s <%s> | --%s=<%s>" : "-%s [%s] | --%s[=%s]" , key, p, name, p);
       }
     }
-    out[1] = HelpInterface.INDENT + description;
+    out[1] = HasHelpText.INDENT + description;
 
     return out;
   }

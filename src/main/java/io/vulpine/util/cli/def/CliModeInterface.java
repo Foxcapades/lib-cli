@@ -16,20 +16,91 @@
 package io.vulpine.util.cli.def;
 
 import io.vulpine.util.cli.ArgumentParser;
-import io.vulpine.util.cli.ArgumentSet;
-import io.vulpine.util.cli.CliMode;
 
-public interface CliModeInterface extends DescriptionInterface, NameInterface, HelpInterface
+/**
+ * = Command Line Run Mode
+ *
+ * Defines a mode of operation for a command line application.
+ *
+ * Many command line applications provide more than a single function or mode of
+ * operation, providing different feature sets for each.  These can be achieved
+ * through use of different flags or different "Modes".
+ *
+ * In the following example there are 2 different operating modes, "find" and
+ * "scene-for" which have the arguments `--containing` and `--line-id`
+ * respectively.
+ *
+ * [source, yaml]
+ * .Example
+ * ----
+ *   # holy-grail find --containing="three"
+ *   results:
+ *     1214: Then, shalt thou count to three.
+ *     1217: Three shalt be the number thou shalt count, and the number o...
+ *     1218: ...r count thou two, excepting that thou then proceed to three.
+ *     1220: Once the number three, being the third number, be reached, t...
+ *   # holy-grail scene-for --line-id=1220
+ *   results:
+ *     Scene 20 - Rabbit of Caerbannog
+ * ----
+ *
+ * While different behaviors can be achieved through different structures and
+ * use of flags, arguments, and parameters, operation modes can provide a clear
+ * separation in logic sets, behaviors, or expectations for an application.
+ *
+ * @author https://github.com/EllieFops[Elizabeth Harper]
+ * @since 0.1.0
+ * @version 1.0.1
+ */
+public interface CliModeInterface extends HasDescription, HasName, HasHelpText
 {
-  CliModeInterface addArgument ( final CliArgumentInterface a );
+  /**
+   * Add an Argument to the current run mode.
+   *
+   * @param argument argument to add.
+   *
+   * @return The current run mode
+   *
+   * @chainable
+   */
+  CliModeInterface addArgument( final CliArgumentInterface argument );
 
-  CliModeInterface addParameter ( final CliParameterInterface... parameter );
+  /**
+   * Add a Parameter to the current run mode.
+   *
+   * @param parameter parameter to add.
+   *
+   * @return The current run mode
+   *
+   * @chainable
+   */
+  CliModeInterface addParameter( final CliParameterInterface... parameter );
 
+  /**
+   * Execute the current run mode.
+   *
+   * @param parser Argument parser
+   */
   void run( final ArgumentParser parser );
 
-  boolean hasUnfilledParam ();
+  /**
+   * @return
+   */
+  boolean hasUnfilledParam();
 
-  CliMode parseParam ( String s );
+  /**
+   * Parse a given parameter
+   *
+   * @param str Parameter string from the CLI call
+   *
+   * @return The current run mode
+   *
+   * @chainable
+   */
+  CliModeInterface parseParam( String str );
 
-  ArgumentSet getArgumentSet ();
+  /**
+   * @return
+   */
+  ArgumentSetInterface getArgumentSet();
 }

@@ -15,9 +15,32 @@
  */
 package io.vulpine.util.cli.def;
 
-public interface CliApplicationInterface extends Runnable, HelpInterface
+/**
+ * = CLI Application Base
+ *
+ * @author https://github.com/EllieFops[Elizabeth Harper]
+ * @since 0.1.0
+ * @version 1.0.0
+ */
+public interface CliApplicationInterface extends Runnable, HasHelpText
 {
-  CliApplicationInterface addArgument ( CliArgumentInterface... a );
+  /**
+   * Adds an argument to this Application
+   *
+   * @param arguments one or more arguments to add to this Application.
+   *
+   * @chainable
+   * @return this Application
+   */
+  CliApplicationInterface addArgument ( CliArgumentInterface... arguments );
 
-  CliApplicationInterface addParameter ( CliParameterInterface... def );
+  /**
+   * Adds a parameter to this Application
+   *
+   * @param parameters one or more parameters to add to this Application.
+   *
+   * @chainabl
+   * @return this Application
+   */
+  CliApplicationInterface addParameter ( CliParameterInterface... parameters );
 }

@@ -47,9 +47,9 @@ abstract class CliApplication implements CliApplicationInterface
   }
 
   @Override
-  public CliApplication addArgument ( final CliArgumentInterface... a )
+  public CliApplication addArgument ( final CliArgumentInterface... arguments )
   {
-    for ( final CliArgumentInterface arg : a ) { arguments.addArgument(arg); }
+    for ( final CliArgumentInterface arg : arguments ) { this.arguments.addArgument(arg); }
 
     return this;
   }

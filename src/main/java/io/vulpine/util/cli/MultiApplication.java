@@ -18,7 +18,7 @@ package io.vulpine.util.cli;
 import io.vulpine.util.cli.def.CliArgumentInterface;
 import io.vulpine.util.cli.def.CliModeInterface;
 import io.vulpine.util.cli.def.CliParameterInterface;
-import io.vulpine.util.cli.def.HelpInterface;
+import io.vulpine.util.cli.def.HasHelpText;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -44,10 +44,10 @@ public class MultiApplication extends CliApplication
   }
 
   @Override
-  public MultiApplication addParameter( final CliParameterInterface... def )
+  public MultiApplication addParameter( final CliParameterInterface... parameters )
   {
-    for ( final CliParameterInterface p : def ) {
-      parameters.offer(p);
+    for ( final CliParameterInterface p : parameters ) {
+      this.parameters.offer(p);
     }
 
     return this;
@@ -136,7 +136,7 @@ public class MultiApplication extends CliApplication
 
     for ( final CliModeInterface entry : this.modes.values() ) {
       for ( final String help : entry.getHelpText() ) {
-        lines.offer(HelpInterface.INDENT + help);
+        lines.offer(HasHelpText.INDENT + help);
       }
       lines.offer("");
     }

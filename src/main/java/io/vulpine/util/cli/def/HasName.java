@@ -15,9 +15,7 @@
  */
 package io.vulpine.util.cli.def;
 
-public interface HelpInterface
+public interface HasName
 {
-  String INDENT = "  ";
-
-  String[] getHelpText();
+  String getName();
 }
