@@ -9,4 +9,6 @@ before_install:
 - echo 'ext.OSSRH_USERNAME="lol"' >> config.gradle
 - echo 'ext.OSSRH_PASSWORD="no"' >> config.gradle
 
-script: ./build.sh
+# Skipped for now because assemble does everything that can be done...
+script:
+- echo "Just no"
