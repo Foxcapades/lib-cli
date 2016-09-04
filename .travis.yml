@@ -3,6 +3,10 @@ language: java
 jdk:
 - oraclejdk8
 
-before_install: chmod +x build.sh && chmod +x gradlew
+before_install:
+- chmod +x build.sh
+- chmod +x gradlew
+- echo 'ext.OSSRH_USERNAME="lol"' > config.gradle
+- echo 'ext.OSSRH_PASSWORD="no"' >> config.gradle
 
 script: ./build.sh
