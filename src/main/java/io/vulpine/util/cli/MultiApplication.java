@@ -73,7 +73,7 @@ public class MultiApplication extends CliApplication
         return;
       }
       System.out.println("Unrecognized application mode.");
-      System.exit(1);
+      return;
     }
 
     nvIt = parser.getArgumentsByName().entrySet().iterator();
@@ -107,14 +107,14 @@ public class MultiApplication extends CliApplication
     for ( final CliArgumentInterface a : arguments.getArguments() ) {
       if (a.isRequired() && !a.wasUsed()) {
         System.out.println(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
-        System.exit(1);
+        return;
       }
     }
 
     for ( final CliArgumentInterface a : mode.getArgumentSet().getArguments() ) {
       if (a.isRequired() && !a.wasUsed()) {
         System.out.println(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
-        System.exit(1);
+        return;
       }
     }
 

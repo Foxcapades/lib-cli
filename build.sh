@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-echo "OSSRH_USERNAME=lol\nOSSRH_PASSWORD=no" > gradle.properties
+echo 'ext.OSSRH_USERNAME="lol"' > config.gradle
+echo 'ext.OSSRH_PASSWORD="no"' >> config.gradle
+
 gradle clean && gradle build
