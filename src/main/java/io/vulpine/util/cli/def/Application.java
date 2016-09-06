@@ -15,6 +15,8 @@
  */
 package io.vulpine.util.cli.def;
 
+import java.util.Collection;
+
 /**
  * = CLI Application Base
  *
@@ -22,7 +24,7 @@ package io.vulpine.util.cli.def;
  * @since 0.1.0
  * @version 1.0.0
  */
-public interface CliApplicationInterface extends Runnable, HasHelpText
+public interface Application extends Runnable, Defined, ArgumentModifiable, Parameterized
 {
   /**
    * Adds an argument to this Application
@@ -32,15 +34,17 @@ public interface CliApplicationInterface extends Runnable, HasHelpText
    * @chainable
    * @return this Application
    */
-  CliApplicationInterface addArgument ( CliArgumentInterface... arguments );
+  Application addArgument ( Argument... arguments );
 
   /**
    * Adds a parameter to this Application
    *
    * @param parameters one or more parameters to add to this Application.
    *
-   * @chainabl
+   * @chainable
    * @return this Application
    */
-  CliApplicationInterface addParameter ( CliParameterInterface... parameters );
+  Application addParameter ( Parameter... parameters );
+
+  Collection< OperationMode > getOperationModes();
 }

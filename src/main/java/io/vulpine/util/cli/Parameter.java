@@ -13,20 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.vulpine.util.cli.def;
+package io.vulpine.util.cli;
 
-/**
- * = Help Text Containing CLI Component
- *
- * Defines a class or object has having help text.
- *
- * @author https://github.com/EllieFops[Elizabeth Harper]
- * @since 0.1.0
- * @version 1.0.0
- */
-public interface HasHelpText
+public abstract class Parameter < T > extends Common implements io.vulpine.util.cli.def.Parameter< T >
 {
-  String INDENT = "  ";
+  protected T value;
 
-  String[] getHelpText();
+  protected final boolean required;
+
+  public Parameter( final String n, final String d, final boolean r )
+  {
+    super(n, d);
+    this.required = r;
+  }
+
+  @Override
+  public boolean isRequired ()
+  {
+    return required;
+  }
+
+  @Override
+  public String[] getDefinition()
+  {
+    return new String[0];
+  }
+
+  @Override
+  public T getValue ()
+  {
+    return value;
+  }
 }

@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.vulpine.util.cli;
+package io.vulpine.util.cli.def;
 
-public class CliFlag extends CliArgument < Void >
+public interface Named
 {
-  public CliFlag ( char key, String name, String desc ) { super(key, name, desc, null); }
-
-  public CliFlag ( char kay, String desc )              { super(kay, desc, null); }
-
-  public CliFlag ( String name, String desc )           { super(name, desc, null); }
+  String getName();
 }

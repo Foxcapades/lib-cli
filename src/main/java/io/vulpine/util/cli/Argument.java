@@ -15,11 +15,10 @@
  */
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliArgumentInterface;
-import io.vulpine.util.cli.def.CliParameterInterface;
-import io.vulpine.util.cli.def.HasHelpText;
+import io.vulpine.util.cli.def.Parameter;
+import io.vulpine.util.cli.def.Defined;
 
-public class CliArgument < T > extends Common implements CliArgumentInterface < T >
+public class Argument < T > extends Common implements io.vulpine.util.cli.def.Argument< T >
 {
   /**
    * Allows flagging an argument as required.
@@ -29,7 +28,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
   /**
    * Argument Parameter Handler
    */
-  protected final CliParameterInterface < T > parameter;
+  protected final Parameter< T > parameter;
 
   /**
    * Short Key used for this argument
@@ -50,7 +49,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
    * @param required Is this argument required
    * @param param    Argument Parameter handler
    */
-  public CliArgument ( char key, String name, String help, boolean required, CliParameterInterface < T > param )
+  public Argument( char key, String name, String help, boolean required, Parameter< T > param )
   {
     super(name, help);
 
@@ -67,7 +66,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
    * @param req   Is this argument required
    * @param param Argument parameter handler
    */
-  public CliArgument ( String name, String help, boolean req, CliParameterInterface < T > param )
+  public Argument( String name, String help, boolean req, Parameter< T > param )
   { this('\u0000', name, help, req, param); }
 
   /**
@@ -78,7 +77,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
    * @param req   Is this argument required?
    * @param param Argument parameter handler
    */
-  public CliArgument ( char key, String help, boolean req, CliParameterInterface < T > param )
+  public Argument( char key, String help, boolean req, Parameter< T > param )
   { this(key, String.valueOf(key), help, req, param); }
 
   /**
@@ -89,7 +88,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
    * @param help  Argument Help Text
    * @param param Parameter Handler
    */
-  public CliArgument ( char key, String name, String help, CliParameterInterface < T > param )
+  public Argument( char key, String name, String help, Parameter< T > param )
   { this(key, name, help, false, param); }
 
   /**
@@ -99,7 +98,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
    * @param help  Argument Help Text
    * @param param Parameter Handler
    */
-  public CliArgument ( String name, String help, CliParameterInterface < T > param )
+  public Argument( String name, String help, Parameter< T > param )
   { this('\u0000', name, help, false, param); }
 
   /**
@@ -109,11 +108,11 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
    * @param help  Argument Help Text
    * @param param Parameter Handler
    */
-  public CliArgument ( char key, String help, CliParameterInterface < T > param )
+  public Argument( char key, String help, Parameter< T > param )
   { this(key, null, help, false, param); }
 
   @Override
-  public CliParameterInterface < T > getParameter ()
+  public Parameter< T > getParameter ()
   { return parameter; }
 
   @Override
@@ -138,7 +137,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
   public boolean isRequired () { return required; }
 
   @Override
-  public String[] getHelpText ()
+  public String[] getDefinition()
   {
     final String[] out = new String[2];
 
@@ -160,7 +159,7 @@ public class CliArgument < T > extends Common implements CliArgumentInterface < 
         out[0] = String.format(required ? "-%s <%s> | --%s=<%s>" : "-%s [%s] | --%s[=%s]" , key, p, name, p);
       }
     }
-    out[1] = HasHelpText.INDENT + description;
+    out[1] = Defined.INDENT + description;
 
     return out;
   }

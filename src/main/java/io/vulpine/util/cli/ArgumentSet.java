@@ -15,47 +15,47 @@
  */
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliArgumentInterface;
-import io.vulpine.util.cli.def.ArgumentSetInterface;
-import io.vulpine.util.cli.def.HasHelpText;
+import io.vulpine.util.cli.def.Argument;
+import io.vulpine.util.cli.def.ArgumentCollection;
+import io.vulpine.util.cli.def.Defined;
 
 import java.util.*;
 
-public class ArgumentSet implements ArgumentSetInterface
+public class ArgumentSet implements ArgumentCollection
 {
-  protected final Map < String, CliArgumentInterface > byName;
+  protected final Map < String, Argument > byName;
 
-  protected final Map < Character, CliArgumentInterface > byKey;
+  protected final Map < Character, Argument > byKey;
 
-  protected final Set < CliArgumentInterface > arguments;
+  protected final Set < Argument > arguments;
 
   public ArgumentSet()
   {
-    byKey = new HashMap < Character, CliArgumentInterface >();
-    byName = new HashMap < String, CliArgumentInterface >();
-    arguments = new HashSet < CliArgumentInterface >();
+    byKey = new HashMap < Character, Argument >();
+    byName = new HashMap < String, Argument >();
+    arguments = new HashSet < Argument >();
   }
 
   @Override
-  public CliArgumentInterface getArgument( final String name )
+  public Argument getArgument( final String name )
   {
     return byName.get(name);
   }
 
   @Override
-  public CliArgumentInterface getArgument( final char key )
+  public Argument getArgument( final char key )
   {
     return byKey.get(key);
   }
 
   @Override
-  public Set < CliArgumentInterface > getArguments()
+  public Set < Argument > getArguments()
   {
     return this.arguments;
   }
 
   @Override
-  public void addArgument( final CliArgumentInterface arg )
+  public void addArgument( final Argument arg )
   {
     this.byKey.put(arg.getKey(), arg);
     this.byName.put(arg.getName(), arg);
@@ -75,17 +75,23 @@ public class ArgumentSet implements ArgumentSetInterface
   }
 
   @Override
-  public String[] getHelpText()
+  public String[] getDefinition()
   {
     final String[] out = new String[arguments.size() * 2 + 1];
     int i = 0;
 
     out[i++] = "Arguments:";
 
-    for ( final CliArgumentInterface arg : this.arguments ) {
-      for ( final String h : arg.getHelpText() ) { out[i++] = HasHelpText.INDENT + h; }
+    for ( final Argument arg : this.arguments ) {
+      for ( final String h : arg.getDefinition() ) { out[i++] = Defined.INDENT + h; }
     }
 
     return out;
+  }
+
+  @Override
+  public boolean isEmpty()
+  {
+    return this.arguments.isEmpty();
   }
 }

@@ -52,7 +52,7 @@ import io.vulpine.util.cli.ArgumentParser;
  * @since 0.1.0
  * @version 1.0.1
  */
-public interface CliModeInterface extends HasDescription, HasName, HasHelpText
+public interface OperationMode extends Described, Named, Defined, ArgumentModifiable
 {
   /**
    * Add an Argument to the current run mode.
@@ -63,7 +63,7 @@ public interface CliModeInterface extends HasDescription, HasName, HasHelpText
    *
    * @chainable
    */
-  CliModeInterface addArgument( final CliArgumentInterface argument );
+  OperationMode addArgument( final Argument argument );
 
   /**
    * Add a Parameter to the current run mode.
@@ -74,7 +74,7 @@ public interface CliModeInterface extends HasDescription, HasName, HasHelpText
    *
    * @chainable
    */
-  CliModeInterface addParameter( final CliParameterInterface... parameter );
+  OperationMode addParameter( final Parameter... parameter );
 
   /**
    * Execute the current run mode.
@@ -97,10 +97,5 @@ public interface CliModeInterface extends HasDescription, HasName, HasHelpText
    *
    * @chainable
    */
-  CliModeInterface parseParam( String str );
-
-  /**
-   * @return
-   */
-  ArgumentSetInterface getArgumentSet();
+  OperationMode parseParam( String str );
 }

@@ -15,19 +15,19 @@
  */
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliArgumentInterface;
-import io.vulpine.util.cli.def.CliParameterInterface;
-import io.vulpine.util.cli.def.HasHelpText;
-import io.vulpine.util.cli.def.CliModeInterface;
+import io.vulpine.util.cli.def.Argument;
+import io.vulpine.util.cli.def.Parameter;
+import io.vulpine.util.cli.def.Defined;
+import io.vulpine.util.cli.def.OperationMode;
 
 import java.util.*;
 
-public abstract class CliMode extends Common implements CliModeInterface
+public abstract class CliMode extends Common implements OperationMode
 {
   /**
    * Parameters attached to this CLI Mode
    */
-  protected final Queue < CliParameterInterface > parameters;
+  protected final Queue < Parameter > parameters;
 
   /**
    * Arguments attached to this CLI Mode
@@ -38,14 +38,14 @@ public abstract class CliMode extends Common implements CliModeInterface
   {
     super(n, d);
 
-    parameters = new LinkedList < CliParameterInterface >();
+    parameters = new LinkedList < Parameter >();
     arguments = new ArgumentSet();
   }
 
   @Override
-  public CliMode addParameter( final CliParameterInterface... p )
+  public CliMode addParameter( final Parameter... p )
   {
-    for ( final CliParameterInterface q : p ) {
+    for ( final Parameter q : p ) {
       parameters.offer(q);
     }
 
@@ -53,7 +53,7 @@ public abstract class CliMode extends Common implements CliModeInterface
   }
 
   @Override
-  public CliMode addArgument( final CliArgumentInterface argument )
+  public CliMode addArgument( final Argument argument )
   {
     arguments.addArgument(argument);
 
@@ -81,22 +81,22 @@ public abstract class CliMode extends Common implements CliModeInterface
   }
 
   @Override
-  public String[] getHelpText()
+  public String[] getDefinition()
   {
-    final String[]      arg = this.arguments.getHelpText();
+    final String[]      arg = this.arguments.getDefinition();
     final String[]      out = new String[arg.length + 3];
     final StringBuilder sb  = new StringBuilder(this.name);
 
-    for ( final CliParameterInterface p : parameters ) {
+    for ( final Parameter p : parameters ) {
       sb.append(" [").append(p.getName()).append(']');
     }
 
     out[0] = sb.toString();
-    out[1] = HasHelpText.INDENT + description;
+    out[1] = Defined.INDENT + description;
     out[2] = "";
 
     for ( int i = 0; i < arg.length; i++ ) {
-      out[i + 3] = HasHelpText.INDENT + arg[i];
+      out[i + 3] = Defined.INDENT + arg[i];
     }
 
     return out;

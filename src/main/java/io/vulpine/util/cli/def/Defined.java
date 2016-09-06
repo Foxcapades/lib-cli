@@ -15,7 +15,18 @@
  */
 package io.vulpine.util.cli.def;
 
-public interface HasName
+/**
+ * = Help Text Containing CLI Component
+ *
+ * Defines a class or object has having help text.
+ *
+ * @author https://github.com/EllieFops[Elizabeth Harper]
+ * @since 0.1.0
+ * @version 1.0.0
+ */
+public interface Defined
 {
-  String getName();
+  String INDENT = "  ";
+
+  String[] getDefinition();
 }

@@ -15,28 +15,28 @@
  */
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliArgumentInterface;
-import io.vulpine.util.cli.def.CliModeInterface;
-import io.vulpine.util.cli.def.CliParameterInterface;
-import io.vulpine.util.cli.def.HasHelpText;
+import io.vulpine.util.cli.def.Argument;
+import io.vulpine.util.cli.def.OperationMode;
+import io.vulpine.util.cli.def.Parameter;
+import io.vulpine.util.cli.def.Defined;
 
 import java.util.*;
 import java.util.Map.Entry;
 
-public class MultiApplication extends CliApplication
+public class MultiApplication extends AbstractApplication
 {
 
-  protected final Map < String, CliModeInterface > modes;
+  protected final Map < String, OperationMode > modes;
 
   public MultiApplication( final String[] args )
   {
     super(args);
-    modes = new HashMap < String, CliModeInterface >();
+    modes = new HashMap < String, OperationMode >();
   }
 
-  public MultiApplication addAppMode( final CliModeInterface... c )
+  public MultiApplication addAppMode( final OperationMode... c )
   {
-    for ( final CliModeInterface m : c ) {
+    for ( final OperationMode m : c ) {
       modes.put(m.getName(), m);
     }
 
@@ -44,9 +44,9 @@ public class MultiApplication extends CliApplication
   }
 
   @Override
-  public MultiApplication addParameter( final CliParameterInterface... parameters )
+  public MultiApplication addParameter( final Parameter... parameters )
   {
-    for ( final CliParameterInterface p : parameters ) {
+    for ( final Parameter p : parameters ) {
       this.parameters.offer(p);
     }
 
@@ -56,7 +56,7 @@ public class MultiApplication extends CliApplication
   @Override
   public void run()
   {
-    final CliModeInterface                                  mode;
+    final OperationMode                                     mode;
     final Queue < String >                                  params;
     final Iterator < Entry < String, List < String > > >    nvIt;
     final Iterator < Entry < Character, List < String > > > kvIt;
@@ -65,9 +65,9 @@ public class MultiApplication extends CliApplication
 
     mode = modes.get(parser.getCliMode());
 
-    if (mode == null) {
-      if (parser.hasFlag("help")) {
-        for ( final String l : getHelpText() ) {
+    if ( mode == null ) {
+      if ( parser.hasFlag("help") ) {
+        for ( final String l : getDefinition() ) {
           System.out.println(l);
         }
         return;
@@ -77,18 +77,21 @@ public class MultiApplication extends CliApplication
     }
 
     nvIt = parser.getArgumentsByName().entrySet().iterator();
+
     while ( nvIt.hasNext() ) {
       final Entry < String, List < String > > e = nvIt.next();
       testArg(e.getKey(), e.getValue(), mode);
     }
 
     kvIt = parser.getArgumentsByKey().entrySet().iterator();
+
     while ( kvIt.hasNext() ) {
       final Entry < Character, List < String > > e = kvIt.next();
       testArg(e.getKey(), e.getValue(), mode);
     }
 
     nfIt = parser.getFlagsByName().iterator();
+
     while ( nfIt.hasNext() ) {
       testArg(nfIt.next(), mode);
     }
@@ -104,22 +107,22 @@ public class MultiApplication extends CliApplication
       mode.parseParam(params.poll());
     }
 
-    for ( final CliArgumentInterface a : arguments.getArguments() ) {
-      if (a.isRequired() && !a.wasUsed()) {
+    for ( final Argument a : arguments.getArguments() ) {
+      if ( a.isRequired() && !a.wasUsed() ) {
         System.out.println(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
         return;
       }
     }
 
-    for ( final CliArgumentInterface a : mode.getArgumentSet().getArguments() ) {
-      if (a.isRequired() && !a.wasUsed()) {
+    for ( final Argument a : mode.getArgumentSet().getArguments() ) {
+      if ( a.isRequired() && !a.wasUsed() ) {
         System.out.println(String.format("Argument %s|%s is required.", a.getKey(), a.getName()));
         return;
       }
     }
 
-    if (helpFlag.wasUsed()) {
-      for ( final String l : getHelpText() ) {
+    if ( helpFlag.wasUsed() ) {
+      for ( final String l : getDefinition() ) {
         System.out.println(l);
       }
     } else {
@@ -129,14 +132,14 @@ public class MultiApplication extends CliApplication
   }
 
   @Override
-  public String[] getHelpText()
+  public String[] getDefinition()
   {
     final Queue < String > lines = new LinkedList < String >();
     final String[]         out;
 
-    for ( final CliModeInterface entry : this.modes.values() ) {
-      for ( final String help : entry.getHelpText() ) {
-        lines.offer(HasHelpText.INDENT + help);
+    for ( final OperationMode entry : this.modes.values() ) {
+      for ( final String help : entry.getDefinition() ) {
+        lines.offer(Defined.INDENT + help);
       }
       lines.offer("");
     }
@@ -149,38 +152,38 @@ public class MultiApplication extends CliApplication
     return out;
   }
 
-  private void testArg( final String e, final CliModeInterface mode )
+  private void testArg( final String e, final OperationMode mode )
   {
-    final CliArgumentInterface a = arguments.getArgument(e);
+    final Argument a = arguments.getArgument(e);
     testFlag(null == a ? mode.getArgumentSet().getArgument(e) : a, e);
   }
 
-  private void testArg( final char e, final CliModeInterface mode )
+  private void testArg( final char e, final OperationMode mode )
   {
-    final CliArgumentInterface a = arguments.getArgument(e);
+    final Argument a = arguments.getArgument(e);
     testFlag(null == a ? mode.getArgumentSet().getArgument(e) : a, e);
   }
 
-  private void testArg( final String name, final List < String > values, final CliModeInterface mode )
+  private void testArg( final String name, final List < String > values, final OperationMode mode )
   {
-    final CliArgumentInterface a = arguments.getArgument(name);
+    final Argument a = arguments.getArgument(name);
     nullCheckArg(null == a ? mode.getArgumentSet().getArgument(name) : a, name, values);
   }
 
-  private void testArg( final char key, final List < String > values, final CliModeInterface mode )
+  private void testArg( final char key, final List < String > values, final OperationMode mode )
   {
-    final CliArgumentInterface a = arguments.getArgument(key);
+    final Argument a = arguments.getArgument(key);
     nullCheckArg(null == a ? mode.getArgumentSet().getArgument(key) : a, key, values);
   }
 
-  private void testFlag( final CliArgumentInterface a, final Object e )
+  private void testFlag( final Argument a, final Object e )
   {
-    if (null == a) {
+    if ( null == a ) {
       System.out.println("Unrecognized flag " + e);
       System.exit(1);
     }
 
-    if (a.getParameter() != null && a.getParameter().isRequired()) {
+    if ( a.getParameter() != null && a.getParameter().isRequired() ) {
       System.out.println(String.format("Argument --%s requires a value.", e));
       System.exit(1);
     }
@@ -188,18 +191,20 @@ public class MultiApplication extends CliApplication
     a.use();
   }
 
-  private void nullCheckArg( final CliArgumentInterface a, final Object i, final List < String > v )
+  private void nullCheckArg( final Argument a, final Object i, final List < String > v )
   {
-    if (null == a) {
+    if ( null == a ) {
       System.out.println("Unrecognized Argument " + i);
       System.exit(1);
     }
     insertValues(a, v);
   }
 
-  private void insertValues( final CliArgumentInterface a, final List < String > values )
+  private void insertValues( final Argument a, final List < String > values )
   {
-    for ( final String s : values ) a.getParameter().parseValue(s);
+    for ( final String s : values ) {
+      a.getParameter().parseValue(s);
+    }
     a.use();
   }
 }

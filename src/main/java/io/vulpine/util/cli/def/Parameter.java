@@ -22,7 +22,7 @@ package io.vulpine.util.cli.def;
  *
  * @author https://github.com/EllieFops[Elizabeth Harper]
  */
-public interface CliParameterInterface < T > extends HasDescription, HasName, HasHelpText
+public interface Parameter < T > extends Described, Named, Defined
 {
   /**
    * Gets the contained value having been parsed by this Parameter.
@@ -42,4 +42,6 @@ public interface CliParameterInterface < T > extends HasDescription, HasName, Ha
    * @return if this Parameter is required by it's parent component.
    */
   boolean isRequired();
+
+  boolean isFilled();
 }

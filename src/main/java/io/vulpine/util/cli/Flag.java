@@ -15,35 +15,20 @@
  */
 package io.vulpine.util.cli;
 
-import io.vulpine.util.cli.def.CliParameterInterface;
-
-public abstract class CliParameter < T > extends Common implements CliParameterInterface< T >
+public class Flag extends Argument< Void >
 {
-  protected T value;
-
-  protected final boolean required;
-
-  public CliParameter ( final String n, final String d, final boolean r )
+  public Flag( char key, String name, String desc )
   {
-    super(n, d);
-    this.required = r;
+    super(key, name, desc, null);
   }
 
-  @Override
-  public boolean isRequired ()
+  public Flag( char kay, String desc )
   {
-    return required;
+    super(kay, desc, null);
   }
 
-  @Override
-  public String[] getHelpText()
+  public Flag( String name, String desc )
   {
-    return new String[0];
-  }
-
-  @Override
-  public T getValue ()
-  {
-    return value;
+    super(name, desc, null);
   }
 }

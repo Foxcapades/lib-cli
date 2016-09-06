@@ -93,9 +93,9 @@ package io.vulpine.util.cli.def;
  * @since 0.0.4
  * @version 1.0.7
  */
-public interface CliArgumentInterface < T > extends HasName, HasDescription, HasHelpText
+public interface Argument < T > extends Named, Described, Defined
 {
-  CliParameterInterface< T > getParameter ();
+  Parameter< T > getParameter ();
 
   /**
    * Gets whether or not this Argument has a <<shorthand-key,shorthand>> key.

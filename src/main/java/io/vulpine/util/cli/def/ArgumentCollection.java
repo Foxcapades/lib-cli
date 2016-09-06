@@ -33,7 +33,7 @@ import java.util.Set;
  * @version 1.0.0
  * @since 0.1.0
  */
-public interface ArgumentSetInterface extends HasHelpText
+public interface ArgumentCollection extends Defined
 {
   /**
    * Retrieves an argument from this ArgumentSet that has the given name.
@@ -43,7 +43,7 @@ public interface ArgumentSetInterface extends HasHelpText
    * @return The argument with the given name, or null if this ArgumentSet does
    *         not contain an argument with that name.
    */
-  CliArgumentInterface getArgument( String name );
+  Argument getArgument( String name );
 
   /**
    * Retrieves an argument from this ArgumentSet that has the given key.
@@ -53,7 +53,7 @@ public interface ArgumentSetInterface extends HasHelpText
    * @return The argument with the given shortcut key, or null if this argument
    * set does not contain an argument with that name.
    */
-  CliArgumentInterface getArgument( char key );
+  Argument getArgument( char key );
 
   /**
    * Retrieves a read-only set of all arguments contained in this ArgumentSet.
@@ -61,14 +61,14 @@ public interface ArgumentSetInterface extends HasHelpText
    * @return A read-only copy of the internal argument collection for this
    *         ArgumentSet.
    */
-  Set < CliArgumentInterface > getArguments();
+  Set < Argument > getArguments();
 
   /**
    * Adds an argument to the current ArgumentSet.
    *
    * @param arg Argument to add.
    */
-  void addArgument( CliArgumentInterface arg );
+  void addArgument( Argument arg );
 
   /**
    * Checks if this ArgumentSet contains an argument with the given name.
@@ -87,4 +87,6 @@ public interface ArgumentSetInterface extends HasHelpText
    * @return Whether or not the given argument is in this ArgumentSet.
    */
   boolean hasArgument( char key );
+
+  boolean isEmpty();
 }
